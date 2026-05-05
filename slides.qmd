@@ -1,0 +1,64 @@
+---
+title: "How to set up CI on CSD3"
+subtitle: "RSE Team Meeting"
+date: "2026-05-20"
+date-format: "dddd DD MMMM YYYY"
+format:
+  clean-revealjs:
+    embed-resources: false
+    transition: slide
+    sc-sb-title: true
+    auto-play-media: true
+    menu:
+      openButton: false
+
+authors:
+ - name: Miren Radia
+  #  role: Research Software Engineer
+  #  affiliations:
+  #    - name: University of Cambridge
+
+---
+
+## Documentation
+
+## Why run CI on CSD3?
+
+## Overview
+
+![](./media/diagram.svg)
+
+# Code Repository
+
+##
+
+![](./media/diagram_highlight_code_repository.svg)
+
+## UIS GitLab Instance
+
+## External repository mirroring
+
+# GitLab CI Infrastructure
+
+##
+
+![](./media/diagram_highlight_gitlab_ci.svg)
+
+## Host server/VM
+
+## GitLab Runner
+
+## GitLab CI workflow
+
+# CSD3
+
+##
+
+![](./media/diagram_highlight_csd3.svg)
+
+## Service Accounts
+
+## Tips and gotchas
+
+# Demo: GRTeclyn CI on CSD3 A100s
+
