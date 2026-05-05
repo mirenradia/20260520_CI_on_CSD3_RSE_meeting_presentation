@@ -3,6 +3,7 @@ title: "How to set up CI on CSD3"
 subtitle: "RSE Team Meeting"
 date: "2026-05-20"
 date-format: "dddd DD MMMM YYYY"
+from: markdown+emoji
 format:
   clean-revealjs:
     embed-resources: false
@@ -20,9 +21,27 @@ authors:
 
 ---
 
-## Documentation
+## Preamble
+
+* This presentation is heavily based on [this Confluence
+  page](https://ucam-rcs.atlassian.net/wiki/x/AYCfDg) I have written.
+* The nitty gritty details on the configurations for the GRTeclyn CI on the CSD3
+  A100s can be found in [this Confluence
+  page](https://ucam-rcs.atlassian.net/wiki/x/CQCHDg).
+* I won't go through how to set everything up step-by-step, but I will give an
+  overview of the setup which should be enough information to determine whether
+  something similar would be suitable for your projects.
+* There are definitely other ways of setting this up, but this is what we do for
+  GRTeclyn.
 
 ## Why run CI on CSD3?
+
+Free GitHub/GitLab/\<other provider\> CI minutes on ephemeral cloud runners are
+great but may not meet the CI needs of your project:
+
+- No [free] **GPU** minutes on GitHub Actions/GitLab CI/CD
+- **Performance regression** testing on these cloud runners is unreliable
+- Cannot test on **exactly the same** software stack and environment as CSD3
 
 ## Overview
 
@@ -36,7 +55,32 @@ authors:
 
 ## UIS GitLab Instance
 
+- UIS has a [GitLab instance](https://gitlab.developers.cam.ac.uk)
+  - Good place to host repositories
+  - Permissions within RCS are already configured correctly
+  - If you leave, someone in the RSE team will still have access to the
+    repository and CI configuration
+- Adding a self-managed GitLab runner requires **Maintainer** permissions
+  - Most RSEs that create projects under the RSE subgroup will only be given
+    **Developer** permissions by default
+  - You will need to request a permissions upgrade
+
 ## External repository mirroring
+
+- GitLab CI/CD for GitHub repositories is a
+  [supported use-case](https://docs.gitlab.com/ee/ci/ci_cd_for_external_repos/github_integration.html)
+- Mirroring other external repositories is also supported.
+- :warning: **Security:** anyone with write access to the repository can trigger
+  a pipeline which will run on CSD3.
+  - Keep write permissions limited to trusted individuals
+  - Set codeowners for GitLab CI config files
+  - Consider using protected branches to restrict who can trigger pipelines
+- :information_source: **Limitation:** pull requests from **fork repositories
+  will not trigger a pipeline**
+  - This is the main security constraint that enforces the above
+  - Ideally there would be a way to approve pipelines from fork PRs, but this is
+  [not currently
+  supported](https://gitlab.com/gitlab-org/gitlab/-/work_items/5667)
 
 # GitLab CI Infrastructure
 
@@ -46,9 +90,40 @@ authors:
 
 ## Host server/VM
 
+- The GitLab Runner can be hosted on **any server**
+  - If RSE involvement in a project is short-term, consider using the **research
+    group's own resources** (or ask them to obtain some)
+- If RSE involvement in a project is expected to be long-term, you can consider
+  using [Arcus](https://docs.hpc.cam.ac.uk/cloud/userguide/03-nova.html) (RCS
+  OpenStack cloud) to host runner VMs
+  - Create an instance via the Horizon web interface
+  - Create a separate network and router per instance for isolation
+  - You may need to open a support ticket to increase resource quotas for the
+    RSE project in Arcus
+    - Instances, floating IPs, networks, routers
+  - You will need to keep this VM up-to-date.
+
 ## GitLab Runner
 
+- Install [GitLab Runner](https://docs.gitlab.com/runner/install/index.html) on the host server
+- Register the runner: executor type is chosen at registration
+  - **SSH executor** — runs jobs directly on CSD3 via SSH; simplest approach
+  - **Shell executor** — runs on host, SSHs to CSD3 manually in the script
+    - Required if you need to **upload artifacts** to GitLab
+- Runner config stored at `/etc/gitlab-runner/config.toml`
+  - You can have multiple runners with different configurations on the same host
+  - Runners can be tagged and jobs can specify which tags to run on
+
 ## GitLab CI workflow
+
+- `.gitlab-ci.yml` — similar concept to GitHub Actions `.github/workflows/`
+  - See [documentation](https://docs.gitlab.com/ee/ci/)
+- :information_source: **SSH executor limitation:** cannot share artifacts between jobs
+  - `gitlab-runner` must be present on the remote system to do this
+  - Workarounds:
+    - Use a **single stage** to build and run the code
+    - Store any build artifacts in a shared location on CSD3 (e.g. RDS) and
+      retrieve them in later jobs
 
 # CSD3
 
@@ -58,7 +133,32 @@ authors:
 
 ## Service Accounts
 
+- CSD3 service accounts are **exempt from MFA** — required for non-interactive CI use
+- Request via a support ticket with:
+  - Name, username, purpose
+  - SSH public key (generated on the runner host, no passphrase)
+  - IP address to connect from (the Arcus floating IP)
+  - SLURM accounts and RDS storage (CC the relevant PIs)
+- :information_source: Service accounts **cannot launch interactive shells**
+  - Must provide a command directly to `ssh`, e.g.:
+    ```bash
+    ssh<user>@login-icelake.hpc.cam.ac.uk echo "Hello World!"
+    ```
+
 ## Tips and gotchas
+
+* Similar to when using CSD3 as a normal user, you can build code on the login
+  nodes but should run it on the compute nodes by submitting a job to SLURM.
+* You can use `--qos=INTR` to request maximum priority (with the usual
+  interactive QoS limits). If you have multiple pipelines running concurrently,
+  you will need to ensure that they don't submit jobs at the same time
+  (e.g. use lock files).
+* Use the `-W` flag for `sbatch` to wait for job completion and get the exit
+  code.
+* NFS mounts (e.g. home directories) are not completely consistent between
+  nodes:
+  * Write on compute node might not be visible on login node immediately after
+    job completion
 
 # Demo: GRTeclyn CI on CSD3 A100s
 
