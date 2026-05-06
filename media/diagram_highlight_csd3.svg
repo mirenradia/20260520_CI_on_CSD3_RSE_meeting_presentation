@@ -1,0 +1,86 @@
+<svg width="900" height="500" viewBox="0 0 900 500" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#333" />
+    </marker>
+
+    <symbol id="github-logo" viewBox="0 0 16 16">
+      <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+    </symbol>
+
+    <symbol id="uis-gitlab-logo" viewBox="0 0 380 380">
+      <path fill="#016171" d="M265.26416,174.37243l-.2134-.55822-21.19899-55.30908c-.4236-1.08359-1.18542-1.99642-2.17699-2.62689-.98837-.63373-2.14749-.93253-3.32305-.87014-1.1689.06239-2.29195.48925-3.20809,1.21821-.90957.73554-1.56629,1.73047-1.87493,2.85346l-14.31327,43.80662h-57.90965l-14.31327-43.80662c-.30864-1.12299-.96536-2.11791-1.87493-2.85346-.91614-.72895-2.03911-1.15582-3.20809-1.21821-1.17548-.06239-2.33468.23641-3.32297.87014-.99166.63047-1.75348,1.5433-2.17707,2.62689l-21.19891,55.31237-.21348.55493c-6.28158,16.38521-.92929,34.90803,13.05891,45.48782.02621.01641.04922.03611.07552.05582l.18719.14119,32.29094,24.17392,15.97151,12.09024,9.71951,7.34871c2.34117,1.77316,5.57877,1.77316,7.92002,0l9.71943-7.34871,15.96822-12.09024,32.48142-24.31511c.02958-.02299.05588-.04269.08538-.06568,13.97834-10.57977,19.32735-29.09604,13.04905-45.47796Z"/>
+      <path fill="#01aebe" d="M265.26416,174.37243l-.2134-.55822c-10.5174,2.16062-20.20405,6.6099-28.49844,12.81593-.1346.0985-25.20497,19.05805-46.55171,35.19699,15.84998,11.98517,29.6477,22.40405,29.6477,22.40405l32.48142-24.31511c.02958-.02299.05588-.04269.08538-.06568,13.97834-10.57977,19.32735-29.09604,13.04905-45.47796Z"/>
+      <path fill="#8dc1b5" d="M160.34962,244.23117l15.97151,12.09024,9.71951,7.34871c2.34117,1.77316,5.57877,1.77316,7.92002,0l9.71943-7.34871,15.96822-12.09024s-13.79772-10.41888-29.6477-22.40405c-15.85327,11.98517-29.65099,22.40405-29.65099,22.40405Z"/>
+      <path fill="#01aebe" d="M143.44561,186.63014c-8.29111-6.20274-17.97446-10.65531-28.49507-12.81264l-.21348.55493c-6.28158,16.38521-.92929,34.90803,13.05891,45.48782.02621.01641.04922.03611.07552.05582l.18719.14119,32.29094,24.17392s13.79772-10.41888,29.65099-22.40405c-21.34673-16.13894-46.42031-35.09848-46.55499-35.19699Z"/>
+    </symbol>
+    <symbol id="openstack-logo" viewBox="0 0 209.67 180.35">
+      <defs>
+        <style>.cls-1{opacity:0.98;}.cls-2{fill:#ed1944;}</style>
+      </defs><title>OpenStack_Logo_Mark</title>
+      <g class="cls-1">
+        <path class="cls-2" d="M461.82,215.24h-150a17.17,17.17,0,0,0-17.12,17.12v40.35h41.61v-6.59a9.26,9.26,0,0,1,9.26-9.26h82.53a9.26,9.26,0,0,1,9.26,9.26v6.59H479V232.36A17.18,17.18,0,0,0,461.82,215.24Z" transform="translate(-294.67 -215.24)"/>
+        <path class="cls-2" d="M437.33,344.72a9.27,9.27,0,0,1-9.26,9.26H345.54a9.27,9.27,0,0,1-9.26-9.26v-6.59H294.67v40.34a17.17,17.17,0,0,0,17.12,17.13h150A17.18,17.18,0,0,0,479,378.47V338.13H437.33Z" transform="translate(-294.67 -215.24)"/>
+        <rect class="cls-2" y="69.37" width="41.62" height="41.62"/>
+        <rect class="cls-2" x="142.66" y="69.37" width="41.62" height="41.62"/>
+      </g>
+      <path class="cls-2" d="M504.33,386.39a9.2,9.2,0,1,0-9.2,9.21A9.21,9.21,0,0,0,504.33,386.39Zm-9.2,6.94a6.94,6.94,0,1,1,6.94-6.94A6.94,6.94,0,0,1,495.13,393.33Z" transform="translate(-294.67 -215.24)"/><path class="cls-2" d="M498.58,384.72v-.05a2.88,2.88,0,0,0-.76-2.09,3.38,3.38,0,0,0-2.45-.86H492v9h1.86v-3H495l1.66,3h2.14l-1.92-3.35A2.72,2.72,0,0,0,498.58,384.72Zm-1.88.06a1.3,1.3,0,0,1-1.47,1.35h-1.38v-2.72h1.34c1,0,1.51.45,1.51,1.35Z" transform="translate(-294.67 -215.24)"/>
+    </symbol>
+  </defs>
+
+  <rect width="900" height="500" fill="#ffffff" />
+
+  <text x="50" y="40" font-family="Arial" font-weight="bold" font-size="18">Code Repository</text>
+  <rect x="50" y="60" width="220" height="380" fill="none" stroke="#ccc" stroke-width="1" />
+  
+  <rect x="70" y="90" width="180" height="80" fill="#fff" stroke="#666" stroke-width="2" stroke-dasharray="5,5" />
+  <text x="160" y="120" font-family="Arial" font-size="14" text-anchor="middle">External repository</text>
+  <use href="#github-logo" x="145" y="130" width="30" height="30" />
+  
+  <rect x="70" y="260" width="180" height="150" fill="#fff" stroke="#333" stroke-width="2" />
+  <text x="160" y="340" font-family="Arial" font-size="14" text-anchor="middle" font-weight="bold">UIS GitLab Instance</text>
+  <use href="#uis-gitlab-logo" x="130" y="340" width="60" height="60" />
+
+  <rect x="85" y="280" width="150" height="40" fill="#f0f0f0" stroke="#333" stroke-width="1" />
+  <text x="160" y="300" font-family="Arial" font-size="12" text-anchor="middle">[Mirrored] repository</text>
+
+  <path d="M160 170 L160 260" fill="none" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)" />
+  <text x="170" y="215" font-family="Arial" font-size="12">Mirroring</text>
+
+  <text x="320" y="40" font-family="Arial" font-weight="bold" font-size="18">GitLab CI Infrastructure</text>
+  
+  <rect x="320" y="60" width="260" height="380" fill="#eef" stroke="#333" stroke-width="2" />
+  <text x="330" y="85" font-family="Arial" font-size="14" font-weight="bold">Hosting server/VM</text>
+  <use href="#openstack-logo" x="520" y="70" width="30" height="30" />
+
+  <rect x="340" y="110" width="220" height="300" fill="#fff" stroke="#333" stroke-width="2" />
+  <text x="350" y="135" font-family="Arial" font-size="14" font-weight="bold">GitLab Runner</text>
+
+  <rect x="360" y="160" width="180" height="220" fill="#fff" stroke="#333" stroke-width="2" />
+  <text x="450" y="275" font-family="Arial" font-size="14" text-anchor="middle">SSH Executor</text>
+
+  <path d="M235 300 L320 300" fill="none" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)" />
+
+  <!-- HIGHLIGHTED: CSD3 -->
+  <text x="630" y="40" font-family="Arial" font-weight="bold" font-size="18" fill="#e67e00">CSD3</text>
+  <rect x="630" y="60" width="240" height="380" fill="#fff8ee" stroke="#e67e00" stroke-width="4" />
+
+  <rect x="660" y="150" width="180" height="80" fill="#fff" stroke="#333" stroke-width="2" />
+  <text x="750" y="195" font-family="Arial" font-size="14" text-anchor="middle">CSD3 login node</text>
+
+  <path d="M540 270 L645 195" fill="none" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)" />
+  <text x="600" y="245" font-family="Arial" font-size="12" font-weight="bold">SSH access</text>
+
+  <path d="M710 230 L710 270" fill="none" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)" />
+  <text x="730" y="260" font-family="Arial" font-size="12">SLURM job submission</text>
+
+  <rect x="670" y="300" width="160" height="70" fill="#fff" stroke="#666" stroke-width="2" stroke-dasharray="5,5" />
+  <rect x="665" y="295" width="160" height="70" fill="#fff" stroke="#666" stroke-width="2" stroke-dasharray="5,5" />
+  <rect x="660" y="290" width="160" height="70" fill="#fff" stroke="#666" stroke-width="2" stroke-dasharray="5,5" />
+  <text x="740" y="330" font-family="Arial" font-size="14" text-anchor="middle">CSD3 compute nodes</text>
+
+  <!-- Dim non-highlighted sections -->
+  <rect x="45" y="20" width="270" height="465" fill="white" opacity="0.65" />
+  <rect x="315" y="20" width="310" height="465" fill="white" opacity="0.65" />
+
+</svg>
