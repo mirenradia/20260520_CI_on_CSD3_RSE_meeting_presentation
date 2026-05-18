@@ -22,8 +22,7 @@ It should generate a `slides.html` file which you can open with a web browser.
 
 ### GitHub Pages
 
-I will publish the slides to the GitHub pages site associated to this
-repository.
+The slides are published to [this GitHub Pages site](https://mirenradia.github.io/20260520_CI_on_CSD3_RSE_meeting_presentation).
 
 ## License
 
