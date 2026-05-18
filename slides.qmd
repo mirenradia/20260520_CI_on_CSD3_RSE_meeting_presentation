@@ -39,9 +39,26 @@ authors:
 Free GitHub/GitLab/\<other provider\> CI minutes on ephemeral cloud runners are
 great but may not meet the CI needs of your project:
 
-- No [free] **GPU** minutes on GitHub Actions/GitLab CI/CD
-- **Performance regression** testing on these cloud runners is unreliable
-- Cannot test on **exactly the same** software stack and environment as CSD3
+- No or limited [free] **GPU** minutes.
+- Cannot test CPU **microarchitecture-specific** codepaths (e.g. AVX-512).
+- Cannot test MPI with true distributed memory and a high-speed interconnect.
+- **Performance regression** testing on these cloud runners is unreliable.
+- Cloud runners may be **too small** or **too slow** for your use case.
+- Cannot test on **exactly the same** software stack and environment as CSD3.
+
+## Limitations
+
+This solution can benefit some projects but may not work for others because of
+the following limitations:
+
+* **Security considerations** mean you may have to limit who can trigger
+  pipelines/who has write access to the repository.
+* **Maintenance overhead** of keeping the runner host up-to-date and secure.
+* CI pipelines will **use up allocations** and, when allocations end, will
+  no longer work.
+* You will have to **wait in the queue** when submitting jobs to the compute
+  nodes. Not as quick as cloud runners.
+* CI pipelines will fail when CSD3 is down for maintenance.
 
 ## Overview
 
@@ -57,30 +74,29 @@ great but may not meet the CI needs of your project:
 
 - UIS has a [GitLab instance](https://gitlab.developers.cam.ac.uk)
   - Good place to host repositories
-  - Permissions within RCS are already configured correctly
+  - Permissions within RCS are already configured correctly.
   - If you leave, someone in the RSE team will still have access to the
-    repository and CI configuration
+    repository and CI configuration.
 - Adding a self-managed GitLab runner requires **Maintainer** permissions
   - Most RSEs that create projects under the RSE subgroup will only be given
-    **Developer** permissions by default
-  - You will need to request a permissions upgrade
+    **Developer** permissions by default.
+  - You will need to request a permissions upgrade.
 
 ## External repository mirroring
 
 - GitLab CI/CD for GitHub repositories is a
-  [supported use-case](https://docs.gitlab.com/ee/ci/ci_cd_for_external_repos/github_integration.html)
+[supported use-case](https://docs.gitlab.com/ee/ci/ci_cd_for_external_repos/github_integration.html).
 - Mirroring other external repositories is also supported.
 - :warning: **Security:** anyone with write access to the repository can trigger
   a pipeline which will run on CSD3.
-  - Keep write permissions limited to trusted individuals
-  - Set codeowners for GitLab CI config files
-  - Consider using protected branches to restrict who can trigger pipelines
-- :information_source: **Limitation:** pull requests from **fork repositories
-  will not trigger a pipeline**
-  - This is the main security constraint that enforces the above
-  - Ideally there would be a way to approve pipelines from fork PRs, but this is
-  [not currently
-  supported](https://gitlab.com/gitlab-org/gitlab/-/work_items/5667)
+  - Keep repository write permissions limited to trusted individuals.
+  - Set codeowners for GitLab CI config files.
+  - Consider using protected branches.
+- :information_source: **Limitation:** GitHub pull requests from **fork repositories
+  will not trigger a pipeline**.
+  - This is the main security constraint that enforces the above.
+  - Mannual pipeline approval from forks is [not currently
+  supported](https://gitlab.com/gitlab-org/gitlab/-/work_items/5667).
 
 # GitLab CI Infrastructure
 
@@ -90,40 +106,45 @@ great but may not meet the CI needs of your project:
 
 ## Host server/VM
 
-- The GitLab Runner can be hosted on **any server**
+- The GitLab Runner can be hosted on **any supported server**.
   - If RSE involvement in a project is short-term, consider using the **research
-    group's own resources** (or ask them to obtain some)
+    group's own resources** (or ask them to obtain some).
 - If RSE involvement in a project is expected to be long-term, you can consider
   using [Arcus](https://docs.hpc.cam.ac.uk/cloud/userguide/03-nova.html) (RCS
-  OpenStack cloud) to host runner VMs
-  - Create an instance via the Horizon web interface
-  - Create a separate network and router per instance for isolation
+  OpenStack cloud) to host runner VMs.
+  - Request access to the `rse-dev` project in Arcus (if not in it already).
+  - Create an instance  under this project via the Horizon web interface.
+  - Create a separate network and router per instance for isolation.
   - You may need to open a support ticket to increase resource quotas for the
-    RSE project in Arcus
+    RSE project in Arcus:
     - Instances, floating IPs, networks, routers
   - You will need to keep this VM up-to-date.
 
 ## GitLab Runner
 
-- Install [GitLab Runner](https://docs.gitlab.com/runner/install/index.html) on the host server
-- Register the runner: executor type is chosen at registration
-  - **SSH executor** — runs jobs directly on CSD3 via SSH; simplest approach
+- Install [GitLab Runner](https://docs.gitlab.com/runner/install/index.html) on
+  the host server.
+- Register the runner: executor type is chosen at registration:
+  - **SSH executor** — runs jobs directly on CSD3 via SSH; simplest approach.
   - **Shell executor** — runs on host, SSHs to CSD3 manually in the script
-    - Required if you need to **upload artifacts** to GitLab
+    - Required if you need to **upload artifacts** to GitLab.
 - Runner config stored at `/etc/gitlab-runner/config.toml`
-  - You can have multiple runners with different configurations on the same host
-  - Runners can be tagged and jobs can specify which tags to run on
+  - You can have multiple runners with different configurations on the same
+    host.
+  - Runners can have tags and jobs can specify which runner to use based on
+    these tags.
 
 ## GitLab CI workflow
 
-- `.gitlab-ci.yml` — similar concept to GitHub Actions `.github/workflows/`
-  - See [documentation](https://docs.gitlab.com/ee/ci/)
-- :information_source: **SSH executor limitation:** cannot share artifacts between jobs
+- `.gitlab-ci.yml` -- similar concept to GitHub Actions `.github/workflows/`
+  (see [documentation](https://docs.gitlab.com/ee/ci/)).
+- :information_source: **SSH executor limitation:** cannot share artifacts
+  between jobs
   - `gitlab-runner` must be present on the remote system to do this
   - Workarounds:
-    - Use a **single stage** to build and run the code
+    - Use a **single stage** to build and run the code.
     - Store any build artifacts in a shared location on CSD3 (e.g. RDS) and
-      retrieve them in later jobs
+      retrieve them in later jobs.
 
 # CSD3
 
@@ -133,7 +154,8 @@ great but may not meet the CI needs of your project:
 
 ## Service Accounts
 
-- CSD3 service accounts are **exempt from MFA** — required for non-interactive CI use
+- CSD3 service accounts are **exempt from MFA** -- required for non-interactive
+  CI use.
 - Request via a support ticket with:
   - Name, username, purpose
   - SSH public key (generated on the runner host, no passphrase)
@@ -150,15 +172,15 @@ great but may not meet the CI needs of your project:
 * Similar to when using CSD3 as a normal user, you can build code on the login
   nodes but should run it on the compute nodes by submitting a job to SLURM.
 * You can use `--qos=INTR` to request maximum priority (with the usual
-  interactive QoS limits). If you have multiple pipelines running concurrently,
-  you will need to ensure that they don't submit jobs at the same time
+  limits). If you have multiple pipelines running concurrently,
+  you will need to ensure that they don't submit jobs simultaneously
   (e.g. use lock files).
-* Use the `-W` flag for `sbatch` to wait for job completion and get the exit
+* Use the `-W` flag for `sbatch` to wait for completion and return exit
   code.
-* NFS mounts (e.g. home directories) are not completely consistent between
+* NFS mounts (e.g. home directories) are not instantly consistent between
   nodes:
   * Write on compute node might not be visible on login node immediately after
-    job completion
+    job completion.
 
 # Demo: GRTeclyn CI on CSD3 A100s
 
